@@ -1,0 +1,17 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from keras.models import Sequential
+from keras.layers import LSTM, Dropout, Dense, Activation
+import datetime
+
+없는것은 미리 설치
+
+텐서는 아나콘다 설치후 아나콘다 터미널에서 pip install tensorflow==2.2
+
+Visual Studio 2015용 Visual C++ 재배포 가능 패키지 이것도 설치
+
+노트북 gpu가 없기에 pip install tensorflow-cpu 까지 
+
+// 조심할거 여기서 엄청 헤맴
+interpreter -> python -> conda로 설정하면 다 오류남

@@ -1,19 +1,22 @@
+#LSTM 삼성 주식 추천 다시 해보기 
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from keras.models import Sequential
 from keras.layers import LSTM, Dropout, Dense, Activation
-# from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau
 import datetime
-
-data = pd.read_csv('samsung_stock_data.csv')
+# 데이터 셋 로드 
+data = pd.read_csv('210109_5y_samsung.KS.csv')
 print(data.head())
 
-
+# 중간값 계산 
 high_prices = data['High'].values
 low_prices = data['Low'].values
 mid_prices = (high_prices + low_prices) / 2
 
+
+# 윈도우 만들기
 seq_len = 50
 sequence_length = seq_len + 1
 
@@ -21,7 +24,8 @@ result = []
 for index in range(len(mid_prices) - sequence_length):
     result.append(mid_prices[index: index + sequence_length])
 
-    
+
+# Normalize Data
 normalized_data = []
 for window in result:
     normalized_window = [((float(p) / float(window[0])) - 1) for p in window]
@@ -44,6 +48,8 @@ y_test = result[row:, -1]
 
 x_train.shape, x_test.shape
 
+# Build a Model
+
 model = Sequential()
 
 model.add(LSTM(50, return_sequences=True, input_shape=(50, 1)))
@@ -54,14 +60,18 @@ model.add(Dense(1, activation='linear'))
 
 model.compile(loss='mse', optimizer='rmsprop')
 
-model.summary()
+print(model.summary())
 
+
+
+# 학습 시키기
 
 model.fit(x_train, y_train,
     validation_data=(x_test, y_test),
     batch_size=10,
     epochs=20)
 
+# 예측 하기
 
 pred = model.predict(x_test)
 
@@ -70,4 +80,5 @@ ax = fig.add_subplot(111)
 ax.plot(y_test, label='True')
 ax.plot(pred, label='Prediction')
 ax.legend()
-print(plt.show())
+plt.show()
+
