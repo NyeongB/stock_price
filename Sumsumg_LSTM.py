@@ -7,8 +7,8 @@ from keras.models import Sequential
 from keras.layers import LSTM, Dropout, Dense, Activation
 import datetime
 # 데이터 셋 로드 
-#data = pd.read_csv('210109_5y_samsung.KS.csv') 
-data = pd.read_csv('dataset/005930.KS_5y.csv')
+#data = pd.read_csv('dataset/210109_5y_samsung.KS.csv') 
+data = pd.read_csv('dataset/2_005930.KS_5y.csv')
 print(data.head())
 
 # 중간값 계산 
